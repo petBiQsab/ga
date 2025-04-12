@@ -6,8 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: php-actions/composer@v6
+      - uses: actions/checkout@v4
+      - uses: ramsey/composer-install@v3
 
       # now run your PHPCS package
       - name: Run PHPCS
