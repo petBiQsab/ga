@@ -3,7 +3,12 @@ name: CI
 on: [push]
 
 jobs:
-  buiid:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
+
+      # now run your PHPCS package
+      - name: Run PHPCS
+        run: composer cs
