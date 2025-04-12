@@ -20,10 +20,5 @@ jobs:
       - name: Print version
         run: php -v
 
-#      - name: Run PHPCS
-#        run: composer cs
-
-      - name: PHPCS #2
-        uses: szepeviktor/phpcs-ruleset-validator@v0.4.0
-        with:
-          xml_ruleset: rulesetCS.xml
+      - name: Run PHPCS
+        run: composer cs
