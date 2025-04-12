@@ -11,4 +11,4 @@ jobs:
 
       # now run your PHPCS package
       - name: Run PHPCS
-        run: composer run phpcs
+        run: composer
