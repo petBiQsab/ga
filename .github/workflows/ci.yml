@@ -24,4 +24,6 @@ jobs:
         run: composer cs
 
       - name: PHPCS #2
-        uses: chindit/actions-phpcs@master
+        uses: szepeviktor/phpcs-ruleset-validator@v0.4.0
+        with:
+          xml_ruleset: rulesetCS.xml
