@@ -23,5 +23,5 @@ jobs:
       - name: Run PHPCS
         run: composer cs
 
-      - name: Lint Code Base
-        uses: thelovekesh/phpcs-ci@v1.0.1
+      - name: PHPCS #2
+        uses: chindit/actions-phpcs@master
