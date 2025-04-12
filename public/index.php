@@ -1,5 +1,1 @@
-<?php
-
-require_once '../vendor/autoload.php';
-
-phpinfo();
+<?php require_once '../vendor/autoload.php';phpinfo();
