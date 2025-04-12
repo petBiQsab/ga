@@ -24,4 +24,4 @@ jobs:
         run: composer cs
 
       - name: Lint Code Base
-        uses: thelovekesh/phpcs-ci@v1
+        uses: thelovekesh/phpcs-ci@v1.0.1
