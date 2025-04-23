@@ -22,3 +22,15 @@ jobs:
 
       - name: Run PHPCS
         run: composer cs
+
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: execute remote ssh commands
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 192.168.0.44
+          username: root
+          port: 22
+          key: ${{ secrets.SSH_KEY }}
+          script: whoami
