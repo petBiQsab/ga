@@ -27,6 +27,8 @@ jobs:
           path: .
 
   code-check:
+    permissions:
+      contents: none
     runs-on: ubuntu-latest
     needs: build
     steps:
