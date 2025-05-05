@@ -24,7 +24,7 @@ jobs:
         run: php -v
 
       - name: ls
-        run: pwd && ls -al
+        run: cd vendor/bin && pwd && ls -al
 
       - name: Run PHPCS
         run: composer cs
@@ -46,7 +46,7 @@ jobs:
         with:
           name: php-app
       - name: ls
-        run: pwd && ls -al
+        run: cd vendor/bin && pwd && ls -al
 
       - name: Run PHPCS
         run: composer cs
