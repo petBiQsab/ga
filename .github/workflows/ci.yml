@@ -23,6 +23,9 @@ jobs:
       - name: Print version
         run: php -v
 
+      - name: ls
+        run: pwd && ls -al
+
       - name: Run PHPCS
         run: composer cs
 
@@ -42,6 +45,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: php-app
+      - name: ls
+        run: pwd && ls -al
+
       - name: Run PHPCS
         run: composer cs
 
