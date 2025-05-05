@@ -3,38 +3,52 @@ name: CI
 on: [push]
 
 jobs:
-#  build:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+
+      - name: Install composer packages
+        uses: ramsey/composer-install@v3
+
+      - name: Print version
+        run: php -v
+
+      - name: Upload artifact for next job
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-app
+          path: .
+
+  code-check:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: php-app
+      - name: Run PHPCS
+        run: composer cs
+
+#  deploy:
 #    runs-on: self-hosted
 #    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
+#      - name: execute remote ssh commands
+#        uses: appleboy/ssh-action@v1
 #        with:
-#          php-version: 8.4
+#          host: 192.168.0.44
+#          username: root
+#          port: 22
+#          key: ${{ secrets.SSH_KEY }}
+#          script: |
+#            whoami
+#            pwd
+#            ls -al
 #
-#      - name: Install composer packages
-#        uses: ramsey/composer-install@v3
-#
-#      - name: Print version
-#        run: php -v
-#
-#      - name: Run PHPCS
-#        run: composer cs
-
-  deploy:
-    runs-on: self-hosted
-    steps:
-      - name: execute remote ssh commands
-        uses: appleboy/ssh-action@v1
-        with:
-          host: 192.168.0.44
-          username: root
-          port: 22
-          key: ${{ secrets.SSH_KEY }}
-          script: | 
-            whoami
-            pwd
-            ls -al
-            
