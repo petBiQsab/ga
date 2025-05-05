@@ -20,6 +20,9 @@ jobs:
       - name: Print version
         run: php -v
 
+      - name: Run PHPCS
+        run: composer cs
+
       - name: Upload artifact for next job
         uses: actions/upload-artifact@v4
         with:
