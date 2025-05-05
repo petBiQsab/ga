@@ -2,9 +2,6 @@ name: CI
 
 on: [push]
 
-permissions:
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,7 +46,10 @@ jobs:
         run: cd vendor/bin && pwd && ls -al
 
       - name: Run PHPCS
-        run: composer cs
+        run: |
+          chmod +x vendor/bin/*
+          ls -al vendor/bin
+          composer cs
 
 #  deploy:
 #    runs-on: self-hosted
