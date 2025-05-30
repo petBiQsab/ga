@@ -3,6 +3,7 @@ name: CI
 env:
   DOCKER_IMAGE_NAME: ga
   DOCKER_REGISTRY: ghcr.io
+  DOCKER_REGISTRY_SPACE: petbiqsab
 
 on: [push]
 
@@ -81,7 +82,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REGISTRY_SPACE }}/${{ env.DOCKER_IMAGE_NAME }}:latest
           cache-from: type=registry,ref=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:buildcache
           cache-to: type=registry,ref=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:buildcache,mode=max
