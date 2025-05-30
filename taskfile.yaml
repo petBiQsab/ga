@@ -1,0 +1,66 @@
+version: '3'
+
+dotenv: ['.docker/local/.env']
+
+tasks:
+  start:
+    desc: 'Start docker project'
+    cmds:
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env start
+      - task: composer-install
+
+  stop:
+    desc: 'Stop docker project'
+    cmds:
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env stop
+
+  up:
+    desc: 'Builds project containers and start project'
+    cmds:
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env up -d
+      - task: composer-install
+
+  down:
+    desc: 'Stop and remove built project containers'
+    cmds:
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env down
+
+  cli:
+    desc: 'Logs into app container'
+    cmds:
+      - docker exec -it ${PROJECT_NAME}-app ash
+
+  project-init:
+    desc: 'Build a dockerized development environment from scratch. Before the first run, create a .env file in the docker/local directory and adjust the values if necessary'
+    cmds:
+      - task: project-delete
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env build
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env up -d
+      - task: composer-install
+
+  project-delete:
+    desc: 'Delete docker containers and built images.'
+    cmds:
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env down
+      - docker rmi -f ${PROJECT_NAME}-app
+
+  project-delete-full:
+    desc: 'Delete docker containers, built images and volumes with data'
+    cmds:
+      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env down
+      - docker rmi -f ${PROJECT_NAME}-app
+
+  composer-install:
+    desc: 'Run "composer install"'
+    cmds:
+      - docker exec ${PROJECT_NAME}-app composer install
+
+  composer-update:
+    desc: 'Run "composer update"'
+    cmds:
+      - docker exec ${PROJECT_NAME}-app composer update
+
+  composer:
+    desc: 'Run composer command. Usage: task composer -- ARGUMENTS'
+    cmds:
+      - docker exec ${PROJECT_NAME}-app composer {{.CLI_ARGS}}

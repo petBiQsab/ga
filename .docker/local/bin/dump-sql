@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -f ${DB_DUMP_FILE}
+mysqldump --host=${SOURCE_DB_HOST} --port=${SOURCE_DB_PORT} --user=${SOURCE_DB_USER} --password=${SOURCE_DB_PASSWORD} --default-character-set=utf8 --single-transaction ${SOURCE_DB_DATABASE} > ${DB_DUMP_FILE}
+chown 1000:1000 ${DB_DUMP_FILE}

@@ -1,3 +1,0 @@
-0 8 * * * /app/bin/console fetch:exchange-rates USD EUR
-5 8 * * * /app/bin/console fetch:exchange-rates EUR USD
-10 8 * * * /app/bin/console fetch:stock-prices
