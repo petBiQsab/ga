@@ -117,7 +117,7 @@ jobs:
 
       - name: Get the tag name
         id: get_tag
-        run: echo "REF_NAME=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+        run: echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
