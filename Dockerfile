@@ -5,13 +5,11 @@ USER root
 # Install the intl extension with root permissions
 RUN install-php-extensions ldap gd
 
-COPY . /var/www/html
-
-# Build app
+# Add necessary tools
 RUN apk update \
     && apk --no-cache add mc htop npm
 
 # Copy our app files as www-data (33:33)
-RUN chown www-data:www-data -R /var/www/html
+COPY --chown=application:application . /var/www/html
 
 USER www-data
