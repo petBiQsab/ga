@@ -68,7 +68,7 @@ jobs:
           composer cs
 
   build-and-push-image-branch:
-    if: github.event_name == 'pull_request' && github.base_ref == 'develop'
+    if: github.ref_name == 'develop'
     runs-on: ubuntu-latest
     needs: code-check
     steps:
