@@ -50,6 +50,7 @@ jobs:
         with:
           name: php-app
           path: .
+          include-hidden-files: true
 
   build-and-push-image:
     if: github.ref_name == 'develop' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/'))
