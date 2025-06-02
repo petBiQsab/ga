@@ -1,0 +1,38 @@
+nav {
+    height: fit-content;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: #262626;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-left: 2rem;
+    & > div {
+        display: flex;
+        justify-content: space-between;
+        & > div {
+            margin-left: 1rem !important;
+            & > div {
+                background-color: #ffffff1f !important;
+            }
+        }
+        p {
+            user-select: none;
+            cursor: pointer;
+            color: $color-grey7;
+        }
+        &.visible {
+            pointer-events: none;
+            div {
+                &:first-of-type {
+                    opacity: 0.9;
+                }
+            }
+            p {
+                color: $color-grey1;
+            }
+        }
+    }
+}

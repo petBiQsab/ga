@@ -1,0 +1,20 @@
+@font-face {
+    font-family: InterRegular;
+    font-weight: auto;
+    font-style: normal;
+    src: url('../fonts/Inter-Regular.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: InterSemiBold;
+    font-weight: auto;
+    font-style: normal;
+    src: url('../fonts/Inter-Bold.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: InterBold;
+    font-weight: auto;
+    font-style: normal;
+    src: url('../fonts/Inter-ExtraBold.ttf') format("truetype");
+}

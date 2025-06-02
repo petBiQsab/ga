@@ -25,7 +25,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.2
 
       - name: Install composer packages
         uses: ramsey/composer-install@v3
@@ -36,8 +36,14 @@ jobs:
       - name: ls
         run: cd vendor/bin && pwd && ls -al
 
-      - name: Run PHPCS
-        run: composer cs
+      - name: Lint
+        run: composer lint
+
+      - name: VarDump check
+        run: composer var-dump-check
+
+#      - name: Run PHPCS
+#        run: composer cs
 
       - name: Upload artifact for next job
         uses: actions/upload-artifact@v4

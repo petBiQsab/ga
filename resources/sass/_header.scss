@@ -1,0 +1,77 @@
+header {
+    width: 100%;
+    min-height: $header-height;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: $color-red;
+    h1 {
+        user-select: none;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        color: $color-grey1;
+        margin-right: auto;
+    }
+    & > div:first-of-type svg {
+        margin-left: var(--header-padding);
+    }
+    & > div:last-of-type:not(:first-of-type) {
+        position: relative;
+        z-index: 111;
+        display: flex;
+        justify-content: center;
+        transition: background-color 0.3s;
+        user-select: none;
+        background-color: #a3312b;
+        padding: 1rem var(--header-padding);
+        margin-left: calc(var(--header-padding) * 0.25);
+        // User Menu
+        & > div {
+            p {
+                font-size: 14px;
+                line-height: 22px;
+                color: $color-grey1;
+                &:last-child:not(:first-child) {
+                    opacity: 0.72;
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+            }
+            &:first-child {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.5rem;
+                height: 2.5rem;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 100%;
+                margin-right: 0.75rem;
+            }
+            &:last-child {
+                width: 100%;
+                position: absolute;
+                top: $header-height;
+                right: 0;
+                z-index: -1;
+                transition: $transition;
+                background-color: $color-grey1;
+                background-color: #a3312b;
+                border-top: $color-grey4 1px solid;
+                p {
+                    color: $color-grey1;
+                    padding: 0.75rem 2rem;
+                    &:hover {
+                        color: $color-grey4;
+                    }
+                }
+            }
+        }
+        &:hover {
+            background-color: #b3312b;
+            div:last-child {
+                background-color: #b3312b;
+            }
+        }
+    }
+}

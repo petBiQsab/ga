@@ -1,54 +1,78 @@
 version: '3'
 
-dotenv: ['.docker/local/.env']
+dotenv: ['docker/local/.env']
 
 tasks:
   start:
     desc: 'Start docker project'
     cmds:
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env start
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env start
       - task: composer-install
+      - task: art-migrate
+      - task: npm-build
 
   stop:
     desc: 'Stop docker project'
     cmds:
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env stop
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env stop
 
   up:
     desc: 'Builds project containers and start project'
     cmds:
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env up -d
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env up -d
       - task: composer-install
+      - task: art-migrate
+      - task: npm-build
 
   down:
     desc: 'Stop and remove built project containers'
     cmds:
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env down
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env down
 
   cli:
     desc: 'Logs into app container'
     cmds:
       - docker exec -it ${PROJECT_NAME}-app ash
 
+  cli-db:
+    desc: 'Logs into database container'
+    cmds:
+      - docker exec -it ${PROJECT_NAME}-database bash
+
   project-init:
     desc: 'Build a dockerized development environment from scratch. Before the first run, create a .env file in the docker/local directory and adjust the values if necessary'
     cmds:
       - task: project-delete
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env build
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env up -d
+      - task: volumes-create
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env build
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env up -d
       - task: composer-install
+      - docker exec ${PROJECT_NAME}-app npm install vite laravel-vite-plugin --save-dev
+      - task: npm-build
+      - task: art-migrate
 
   project-delete:
     desc: 'Delete docker containers and built images.'
     cmds:
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env down
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env down
       - docker rmi -f ${PROJECT_NAME}-app
 
   project-delete-full:
     desc: 'Delete docker containers, built images and volumes with data'
     cmds:
-      - docker-compose -p ${PROJECT_NAME} -f ./.docker/local/docker-compose.yml --env-file ./.docker/local/.env down
+      - docker-compose -p ${PROJECT_NAME} -f ./docker/local/docker-compose.yml --env-file ./docker/local/.env down
       - docker rmi -f ${PROJECT_NAME}-app
+      - task: volumes-delete
+
+  volumes-create:
+    desc: 'Create necessary docker volumes'
+    cmds:
+      - docker volume create ${PROJECT_NAME}-db-data
+
+  volumes-delete:
+    desc: 'Delete docker volumes with data'
+    cmds:
+      - docker volume rm -f ${PROJECT_NAME}-db-data
 
   composer-install:
     desc: 'Run "composer install"'
@@ -64,3 +88,36 @@ tasks:
     desc: 'Run composer command. Usage: task composer -- ARGUMENTS'
     cmds:
       - docker exec ${PROJECT_NAME}-app composer {{.CLI_ARGS}}
+
+  art-migrate:
+    desc: 'Run database migrations'
+    cmds:
+      - docker exec ${PROJECT_NAME}-app php artisan --no-interaction migrate
+
+  art:
+    desc: 'Run php artisan. Usage: task art -- ARGUMENTS'
+    cmds:
+      - docker exec -it ${PROJECT_NAME}-app php artisan {{.CLI_ARGS}}
+
+  npm-build:
+    desc: 'Build FE scripts'
+    cmds:
+      - docker exec ${PROJECT_NAME}-app npm run build
+
+  db-restore:
+    desc: 'Drop current database and restore dump'
+    cmds:
+      - echo "Restoring database dump ..."
+      - docker exec ${PROJECT_NAME}-database mysql --user=${DB_USER} --password=${DB_PASSWORD} --execute "DROP DATABASE IF EXISTS ${DB_DATABASE}; CREATE DATABASE ${DB_DATABASE}; use ${DB_DATABASE}; source ${DB_DUMP_DIR}/${DB_DUMP_FILENAME};"
+
+  db-dump:
+    desc: 'Dump source database to file'
+    cmds:
+      - echo "Dumping source database to ${DB_DUMP_FILE} ..."
+      - docker exec -it ${PROJECT_NAME}-database dump-sql
+
+  db-clone:
+    desc: 'Clone source database to local'
+    cmds:
+      - task: db-dump
+      - task: db-restore

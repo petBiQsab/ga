@@ -1,0 +1,155 @@
+@import "variables", "header", "form", "buttons", "modal", "table",
+    "rangeSlider", "navigation", "loader";
+// Variables
+:root {
+    --header-padding: 2rem;
+    --section-header-padding: 1.5rem 2rem;
+}
+// Main styles
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: $app-bg;
+    margin: 0;
+}
+* {
+    box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+label,
+input,
+button,
+select,
+textarea {
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+}
+main {
+    // width: min(100%, 1920px);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    & > div {
+        width: 100%;
+        overflow: hidden;
+    }
+}
+section {
+    height: calc(100vh - 4.5rem);
+    display: flex;
+    flex-direction: column;
+}
+h1 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 38px;
+    color: $color-black;
+}
+p {
+    margin: 0;
+}
+a {
+    text-decoration: none;
+    color: $color-grey9;
+    transition: $transition;
+    &:hover {
+        color: $color-grey9;
+        &[class*="btn"] {
+            color: $color-grey1;
+        }
+        &[class*="btn-secondary"] {
+            color: $color-red;
+        }
+    }
+}
+ul {
+    list-style-type: "- ";
+    padding: 0;
+    margin: 0;
+    li {
+        a {
+            display: flex;
+            justify-content: space-between;
+            border-radius: 0.25rem;
+            transition: $transition;
+            transition-duration: 0.2s;
+            &:hover {
+                color: inherit;
+                background-color: $color-grey3;
+            }
+        }
+    }
+}
+img {
+    user-select: none;
+}
+
+.detail {
+    display: flex;
+    overflow: scroll;
+    padding: 1.5rem;
+    &:has(.tooltip.show.warning) {
+        overflow: hidden;
+    }
+}
+
+.tooltip {
+    width: fit-content;
+    position: fixed;
+    z-index: 9;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s;
+    box-shadow: 2px 4px 16px -8px $color-grey9;
+    border-radius: 0.25rem;
+    &.info {
+        background-color: $color-grey9;
+        & > div p {
+            color: $color-grey1;
+        }
+    }
+    & > div {
+        overflow: hidden;
+        display: flex;
+        transition: margin 0.25s;
+        margin: 0 0.75rem;
+        p {
+            user-select: none;
+            font-size: 0.75rem;
+        }
+    }
+    &.warning {
+        transition: $transition;
+        background-color: $color-grey1;
+        & > div p {
+            color: $color-red;
+        }
+    }
+    &.show {
+        grid-template-rows: 1fr;
+        &.warning {
+            cursor: pointer;
+            border: $color-red 1px solid;
+            &:hover {
+                background-color: $color-red;
+                & > div p {
+                    color: $color-grey1;
+                }
+            }
+        }
+        & > div {
+            margin: 0.5rem 0.75rem;
+        }
+    }
+}
+
+@import "mediaQueries";

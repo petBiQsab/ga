@@ -1,0 +1,15 @@
+@media (max-width: 768px) {
+    :root {
+        --header-padding: 1rem;
+        --section-header-padding: 1rem;
+    }
+    header {
+        gap: 0.5rem;
+        & > div:first-of-type {
+            margin-right: auto;
+        }
+        h1 {
+            display: none;
+        }
+    }
+}

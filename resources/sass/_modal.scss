@@ -1,0 +1,24 @@
+dialog {
+    // min-width: 50%;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    border-radius: 0.5rem;
+}
+dialog[open] {
+    animation: 0.3s linear slidein;
+}
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.36);
+    animation: 0.3s ease fade;
+}
+@keyframes slidein {
+    from {
+        transform: translate3d(0, 0.25rem, 0);
+    }
+}
+@keyframes fade {
+    from {
+        opacity: 0.36;
+    }
+}

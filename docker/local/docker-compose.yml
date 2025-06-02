@@ -1,0 +1,50 @@
+volumes:
+    mpp-db-data:
+        external: true
+
+services:
+    php:
+        build:
+            context: .
+            target: development
+            args:
+                USER_ID: ${USER_ID}
+                GROUP_ID: ${GROUP_ID}
+                PHP_IMAGE: ${PHP_IMAGE}
+        image: ${PROJECT_NAME}-app
+        container_name: ${PROJECT_NAME}-app
+        ports:
+            - ${HTTP_LOCAL_PORT}:8080
+        environment:
+            APP_BASE_DIR: "/app"
+            NGINX_WEBROOT: "/app/public"
+            PHP_DATE_TIMEZONE: "Europe/Bratislava"
+            SSL_MODE: "off"
+            APP_ENV: ${APP_ENV}
+            DB_HOST: database
+            DB_DATABASE: ${DB_DATABASE}
+            DB_USERNAME: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - ./../../:/app
+        depends_on:
+            - database
+
+    database:
+        image: ${DB_IMAGE}
+        container_name: ${PROJECT_NAME}-database
+        environment:
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - SOURCE_DB_HOST=${SOURCE_DB_HOST}
+            - SOURCE_DB_PORT=${SOURCE_DB_PORT}
+            - SOURCE_DB_DATABASE=${SOURCE_DB_DATABASE}
+            - SOURCE_DB_USER=${SOURCE_DB_USER}
+            - SOURCE_DB_PASSWORD=${SOURCE_DB_PASSWORD}
+            - DB_DUMP_FILE=${DB_DUMP_DIR}/${DB_DUMP_FILENAME}
+        volumes:
+            - ${PROJECT_NAME}-db-data:/var/lib/mysql
+            - ./../../database/dump:${DB_DUMP_DIR}
+            - ./bin/dump-sql:/usr/local/bin/dump-sql
+        ports:
+            - ${DB_LOCAL_PORT}:3306
