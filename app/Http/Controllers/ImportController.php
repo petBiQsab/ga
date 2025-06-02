@@ -71,7 +71,7 @@ class ImportController extends Controller
                 }
             }
         }
-        dump($counter);
-        dd($counter2);
+//        dump($counter);
+//        dd($counter2);
     }
 }

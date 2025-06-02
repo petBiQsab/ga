@@ -633,9 +633,9 @@ class HomeController extends Controller
 
         //($activity->changes()['old']);
 
-        dump(json_decode($activity->changes(), true)['old']);
-        dump(json_decode($activity->changes(), true)['attributes']);
-        dump(array_diff( json_decode($activity->changes(), true)['attributes'] , json_decode($activity->changes(), true)['old'] ));
+//        dump(json_decode($activity->changes(), true)['old']);
+//        dump(json_decode($activity->changes(), true)['attributes']);
+//        dump(array_diff( json_decode($activity->changes(), true)['attributes'] , json_decode($activity->changes(), true)['old'] ));
         $changes=array_diff( json_decode($activity->changes(), true)['attributes'] , json_decode($activity->changes(), true)['old'] );
 
         foreach ($changes as $item=>$key)

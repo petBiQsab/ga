@@ -70,7 +70,7 @@ class GroupsPeopleController extends Controller
                         'objectguid' => $user->getConvertedGuid(),
 
                     );
-                    dd($data);
+//                    dd($data);
                 }
                 $data = array(
                     'name' => $user['displayName'][0],

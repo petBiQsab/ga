@@ -35,7 +35,7 @@ class GroupRepository
         $result = Groups::where($criteria)->get();
 
         if ($result->count() > 1) {
-            dd($result);
+//            dd($result);
             throw new MultipleRecordsFoundException(sprintf('Find multiple groups - criteria %s.', json_encode($criteria)));
         }
 
