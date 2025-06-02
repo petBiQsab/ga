@@ -39,6 +39,11 @@ jobs:
       - name: VarDump check
         run: composer var-dump-check
 
+      - name: Remove composer dev packages
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--no-dev"
+
       - name: Upload artifact for next job
         uses: actions/upload-artifact@v4
         with:
@@ -58,11 +63,6 @@ jobs:
 
       - name: Create .env file
         run: cp .env.example .env
-
-      - name: Remove composer dev packages
-        uses: ramsey/composer-install@v3
-        with:
-          composer-options: "--no-dev"
 
       - name: Print content
         run: ls -al .
