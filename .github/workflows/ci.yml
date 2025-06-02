@@ -33,12 +33,6 @@ jobs:
       - name: Print version
         run: php -v
 
-      - name: Create .env file
-        run: cp .env.example .env
-
-      - name: Print content
-        run: ls -al .
-
       - name: Lint
         run: composer lint
 
@@ -61,6 +55,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: php-app
+
+      - name: Create .env file
+        run: cp .env.example .env
+
+      - name: Remove composer dev packages
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--no-dev"
 
       - name: Print content
         run: ls -al .
