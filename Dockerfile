@@ -9,10 +9,10 @@ COPY . /var/www/html
 
 # Build app
 RUN apk update \
-    && apk --no-cache add mc htop npm \
-    && cp .env.example .env
+    && apk --no-cache add mc htop npm
 
 # Copy our app files as www-data (33:33)
 COPY --chown=application:application . /var/www/html
+COPY --chown=application:application .env.example /var/www/html.env
 
 USER www-data
