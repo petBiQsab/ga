@@ -27,6 +27,8 @@
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "php-parallel-lint/php-var-dump-check": "dev-master",
         "phpunit/phpunit": "^10.1",
         "spatie/laravel-ignition": "^2.0"
     },
