@@ -33,17 +33,11 @@ jobs:
       - name: Print version
         run: php -v
 
-      - name: ls
-        run: cd vendor/bin && pwd && ls -al
-
       - name: Lint
         run: composer lint
 
       - name: VarDump check
         run: composer var-dump-check
-
-#      - name: Run PHPCS
-#        run: composer cs
 
       - name: Upload artifact for next job
         uses: actions/upload-artifact@v4
