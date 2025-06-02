@@ -33,6 +33,9 @@ jobs:
       - name: Print version
         run: php -v
 
+      - name: Print content
+        run: ls -al .
+
       - name: Lint
         run: composer lint
 
