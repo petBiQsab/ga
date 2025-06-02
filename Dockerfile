@@ -10,12 +10,9 @@ COPY . /var/www/html
 # Build app
 RUN apk update \
     && apk --no-cache add mc htop npm \
-    && composer install --no-dev \
-    && npm install vite laravel-vite-plugin \
-    && npm run build \
     && cp .env.example .env
 
 # Copy our app files as www-data (33:33)
-RUN chown www-data:www-data -R /var/www/html
+COPY --chown=application:application . /var/www/html
 
 USER www-data
