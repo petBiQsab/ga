@@ -57,6 +57,18 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "lint": "vendor/bin/parallel-lint app config routes",
+        "var-dump-check": "php vendor/bin/var-dump-check --symfony app config routes",
+        "code-sniffer": "vendor/bin/phpcs --standard=phpcs.xml",
+        "code-sniffer-fix": "vendor/bin/phpcbf --standard=phpcs.xml",
+        "code-check": [
+            "@lint",
+            "@code-sniffer",
+            "@var-dump-check"
+        ],
+        "code-fix": [
+            "@code-sniffer-fix"
         ]
     },
     "extra": {
