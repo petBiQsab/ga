@@ -27,5 +27,5 @@ vite.config.js
 /storage/app/
 /storage/framework/
 
-# Cron Scheduler timing setup
-/app/Console/Kernel.php
+## Cron Scheduler timing setup
+#/app/Console/Kernel.php
