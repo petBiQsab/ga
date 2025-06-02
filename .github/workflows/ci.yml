@@ -33,6 +33,9 @@ jobs:
       - name: Print version
         run: php -v
 
+      - name: Create .env file
+        run: cp .env.example .env
+
       - name: Print content
         run: ls -al .
 

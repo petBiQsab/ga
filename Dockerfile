@@ -13,6 +13,5 @@ RUN apk update \
 
 # Copy our app files as www-data (33:33)
 COPY --chown=application:application . /var/www/html
-COPY --chown=application:application ./.env.example /var/www/html/.env
 
 USER www-data
