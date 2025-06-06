@@ -24,8 +24,8 @@ yarn-error.log
 vite.config.js
 
 # Project exclude paths
-/storage/app/
-/storage/framework/
+#/storage/app/
+#/storage/framework/
 
 ## Cron Scheduler timing setup
 #/app/Console/Kernel.php
