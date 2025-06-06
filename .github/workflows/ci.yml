@@ -30,6 +30,10 @@ jobs:
       - name: Install composer packages
         uses: ramsey/composer-install@v3
 
+      - name: Build npm app
+        run: npm install vite laravel-vite-plugin
+             npm run build
+
       - name: Print version
         run: php -v
 
