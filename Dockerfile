@@ -11,7 +11,7 @@ COPY . /var/www/html
 RUN apk update \
     && apk --no-cache add mc htop npm
 
-# Copy our app files as www-data (33:33)
-COPY --chown=www-data:www-data . /var/www/html
+# Copy our app files as www-data (82:82)
+COPY --chown=82:82 . /var/www/html
 
 USER www-data
