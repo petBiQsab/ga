@@ -31,8 +31,11 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Build npm app
-        run: npm install vite laravel-vite-plugin
-             npm run build
+        run: |
+            npm install vite laravel-vite-plugin
+            npm run build
+            cd public
+            ls -al
 
       - name: Print version
         run: php -v
@@ -55,37 +58,37 @@ jobs:
           path: .
           include-hidden-files: true
 
-  build-and-push-image:
-    if: github.ref_name == 'develop' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/'))
-    runs-on: ubuntu-latest
-    needs: build-and-check-app
-    steps:
-      - name: Download artifact from build-app job
-        uses: actions/download-artifact@v4
-        with:
-          name: php-app
-
-      - name: Create .env file
-        run: cp .env.example .env
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Get the tag name
-        id: get_tag
-        run: echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REGISTRY_SPACE }}/${{ env.DOCKER_IMAGE_NAME }}:${{ steps.get_tag.outputs.TAG }}
+#  build-and-push-image:
+#    if: github.ref_name == 'develop' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/'))
+#    runs-on: ubuntu-latest
+#    needs: build-and-check-app
+#    steps:
+#      - name: Download artifact from build-app job
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: php-app
+#
+#      - name: Create .env file
+#        run: cp .env.example .env
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#
+#      - name: Login to Docker Registry
+#        uses: docker/login-action@v3
+#        with:
+#          registry: ${{ env.DOCKER_REGISTRY }}
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Get the tag name
+#        id: get_tag
+#        run: echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+#
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v6
+#        with:
+#          context: .
+#          file: ./Dockerfile
+#          push: true
+#          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REGISTRY_SPACE }}/${{ env.DOCKER_IMAGE_NAME }}:${{ steps.get_tag.outputs.TAG }}

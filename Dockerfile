@@ -15,4 +15,6 @@ RUN apk update \
 # Copy our app files as www-data (82:82)
 COPY --chown=82:82 . /var/www/html
 
+ENV ENV=/etc/profile
+
 USER www-data
