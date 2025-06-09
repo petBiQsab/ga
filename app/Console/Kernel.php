@@ -40,7 +40,8 @@ class Kernel extends ConsoleKernel
             //$schedule->command('command:level1WeeklyReminder')->weeklyOn(5, '07:00');
 
         }
-        $schedule->command('command:sync_ad_data')->dailyAt('00:00');
+//        $schedule->command('command:sync_ad_data')->dailyAt('00:00');
+        $schedule->command('command:ping')->everyMinute();
 
     }
 

@@ -30,14 +30,14 @@ jobs:
       - name: Install composer packages
         uses: ramsey/composer-install@v3
 
+      - name: Print version
+        run: php -v
+
       - name: Build npm app
         run: |
             npm install vite laravel-vite-plugin
             npm run build
             npm version
-
-      - name: Print version
-        run: php -v
 
       - name: Lint
         run: composer lint
